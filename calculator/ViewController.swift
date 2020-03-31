@@ -8,15 +8,17 @@
 
 import UIKit
 
-class ViewController: UIViewController ,UICollectionViewDelegate ,UICollectionViewDataSource{
+class ViewController: UIViewController ,UICollectionViewDelegate ,UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        <#code#>
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        let cell = calcularCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
+        cell.backgroundColor = .blue
+        return cell
     }
-    
 
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var calcularCollectionView: UICollectionView!
@@ -24,12 +26,11 @@ class ViewController: UIViewController ,UICollectionViewDelegate ,UICollectionVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         calcularCollectionView.delegate = self
         calcularCollectionView.dataSource = self
-        calcularCollectionView.register(UITraitCollection.self, forCellWithReuseIdentifier: "callId")
-        // Do any additional setup after loading the view.
+        calcularCollectionView.register (UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        
     }
-
-
 }
 
