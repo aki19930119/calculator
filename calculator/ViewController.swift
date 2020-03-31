@@ -8,7 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController ,UICollectionViewDelegate ,UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        <#code#>
+    }
+    
 
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var calcularCollectionView: UICollectionView!
@@ -16,6 +24,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        calcularCollectionView.delegate = self
+        calcularCollectionView.dataSource = self
+        calcularCollectionView.register(UITraitCollection.self, forCellWithReuseIdentifier: "callId")
         // Do any additional setup after loading the view.
     }
 
