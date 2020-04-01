@@ -40,21 +40,21 @@
                                 </cells>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12345" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MdH-dn-hwS">
-                                <rect key="frame" x="1" y="394" width="412" height="60"/>
+                                <rect key="frame" x="1" y="394" width="400" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="iwz-Dj-qxw"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="75"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XGl-DI-E4J" secondAttribute="bottom" id="3GD-aI-b3h"/>
                             <constraint firstItem="XGl-DI-E4J" firstAttribute="top" secondItem="MdH-dn-hwS" secondAttribute="bottom" constant="8" symbolic="YES" id="KzE-og-tSv"/>
                             <constraint firstItem="XGl-DI-E4J" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dty-Hf-1bO"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MdH-dn-hwS" secondAttribute="trailing" constant="1" id="elI-bV-7J4"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MdH-dn-hwS" secondAttribute="trailing" constant="13" id="elI-bV-7J4"/>
                             <constraint firstItem="MdH-dn-hwS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="1" id="l7a-uG-LDd"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XGl-DI-E4J" secondAttribute="trailing" id="sSe-JR-E9I"/>
                         </constraints>
