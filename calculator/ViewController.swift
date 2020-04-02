@@ -25,13 +25,22 @@ class ViewController: UIViewController ,UICollectionViewDelegate ,UICollectionVi
     
     //セルの長さを４分割する
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width - 3 * 10) / 4
-        return .init(width: width, height: width)
+        //定数だと変更できないのでvar
+        var width: CGFloat = 0
+        width = ((collectionView.frame.width - 10) - 14 * 5) / 4
+        //縦の大きさも変更されることを防ぐため
+        let height = width
+        //0のテキストの変更
+        if indexPath.section == 4 && indexPath.row == 0 {
+            width = width * 2 + 14 + 9
+            }
+        return .init(width: width, height: height)
+        
     }
     
     //隙間の調整
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 14
     }
     
     //マスの表示
@@ -39,8 +48,21 @@ class ViewController: UIViewController ,UICollectionViewDelegate ,UICollectionVi
         let cell = calcularCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CalculatorViewCell
         //numbersの配列の文字の呼び出し
         cell.numberLabel.text = numbers[indexPath.section][indexPath.row]
-        
+        //numbersの中の中の数字にそれぞれの処理を行う
+        numbers[indexPath.section][indexPath.row].forEach{ (numberString) in
+            if "0"..."9" ~= numberString || numberString.description == "."{
+                cell.numberLabel.backgroundColor = .darkGray
+            }else if numberString == "C" || numberString == "%" || numberString == "$" {
+                    cell.numberLabel.backgroundColor = UIColor.init(white: 1, alpha: 0.7)
+                cell.numberLabel.textColor = .black
+                }
+            }
         return cell
+    }
+    //それぞれの数字の情報を取得しナンバー表示させる
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let number = numbers[indexPath.section][indexPath.row]
+        numberLabel.text = number
     }
     
     let numbers = [
@@ -63,6 +85,8 @@ class ViewController: UIViewController ,UICollectionViewDelegate ,UICollectionVi
         calcularCollectionView.register (CalculatorViewCell.self, forCellWithReuseIdentifier: "cellId")
         calculatorHeightConstraint.constant = view.frame.width * 1.4
         calcularCollectionView.backgroundColor = .clear
+        //両端の幅の修正
+        calcularCollectionView.contentInset = .init(top: 0, left: 14, bottom: 0, right: 14)
         view.backgroundColor = .black
         
     }
