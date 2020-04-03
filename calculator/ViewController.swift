@@ -62,12 +62,82 @@ class ViewController: UIViewController ,UICollectionViewDelegate ,UICollectionVi
     //それぞれの数字の情報を取得しナンバー表示させる
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let number = numbers[indexPath.section][indexPath.row]
-        numberLabel.text = number
+        
+        switch  calculateStates {
+        case .none:
+            switch number {
+            case "0"..."9":
+                //ナンバーに追加して表示してくれる
+                firstNumber += number
+                numberLabel.text = firstNumber
+            case "+":
+                calculateStates = .plus
+            case "-":
+                calculateStates = .minus
+            case "×":
+                calculateStates = .multiplication
+            case "÷":
+                calculateStates = .division
+            case "C":
+                clear()
+            default:
+                break
+            }
+        case .plus, .minus, .multiplication, .division:
+            switch  number {
+            case "0"..."9":
+            secondNumber += number
+            numberLabel.text = secondNumber
+            case "=":
+                
+                
+                let firstNum = Double(firstNumber) ?? 0
+                let secondNum = Double(secondNumber) ?? 0
+                
+                switch calculateStates {
+                case .plus:
+                    numberLabel.text = String(firstNum + secondNum)
+                case .minus:
+                    numberLabel.text = String(firstNum - secondNum)
+                case .multiplication:
+                    numberLabel.text = String(firstNum * secondNum)
+                case .division:
+                    numberLabel.text = String(firstNum / secondNum)
+                default:
+                    break
+                }
+                
+            case "C":
+                clear()
+                
+            default:
+                break
+            }
+        default:
+            break
+        }
+        
     }
+    //ボタンのCの機能
+    func  clear(){
+        firstNumber = ""
+        secondNumber = ""
+        numberLabel.text = "0"
+        calculateStates = .none
+    }
+
+    //状態の管理
+    enum CaluclateStates {
+        case none, plus, minus, multiplication, division
+    }
+    var firstNumber = ""
+    var secondNumber = ""
+    var calculateStates: CaluclateStates = .none
+    
     
     let numbers = [
-        ["C","%","$","+"],
-        ["7","8","0","*"],
+        ["C","%","$","÷"],
+        ["7","8","9","×"],
         ["4","5","6","-"],
         ["1","2","3","+"],
         ["0",".","="],
