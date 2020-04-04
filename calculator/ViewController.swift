@@ -38,6 +38,7 @@ class ViewController: UIViewController {
         setupView()
     }
     
+    //画面のセットアップ
     func setupView(){
         
         calcularCollectionView.delegate = self
@@ -52,7 +53,6 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .black
         
-        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -62,20 +62,21 @@ class ViewController: UIViewController {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numbers[section].count
     }
-    //ブロックの間に隙間を作成
+    
+    //ボタンのセルの間に隙間を作成
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) ->CGSize {
         return .init(width: collectionView.frame.width, height: 10)
         
     }
     
-    //セルの長さを４分割する
+    //セルを４分割する
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //定数だと変更できないのでvar
         var width: CGFloat = 0
         width = ((collectionView.frame.width - 10) - 14 * 5) / 4
-        //縦の大きさも変更されることを防ぐため
+        //縦の大きさの変更しないようにする
         let height = width
-        //0のテキストの変更
+        //0のセルの大きさを変更
         if indexPath.section == 4 && indexPath.row == 0 {
             width = width * 2 + 14 + 9
             }
@@ -91,6 +92,7 @@ class ViewController: UIViewController {
         calculateStates = .none
     }
 }
+
 // MARK: - UICollectionViewDelegate ,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 //CollectionViewの拡張
 extension ViewController: UICollectionViewDelegate ,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -101,9 +103,11 @@ extension ViewController: UICollectionViewDelegate ,UICollectionViewDataSource, 
     //マスの表示
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = calcularCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CalculatorViewCell
+        
         //numbersの配列の文字の呼び出し
         cell.numberLabel.text = numbers[indexPath.section][indexPath.row]
-        //numbersの中の中の数字にそれぞれの処理を行う
+        
+        //numbersの中の数字それぞれの色の変更
         numbers[indexPath.section][indexPath.row].forEach{ (numberString) in
             if "0"..."9" ~= numberString || numberString.description == "."{
                 cell.numberLabel.backgroundColor = .darkGray
@@ -114,34 +118,33 @@ extension ViewController: UICollectionViewDelegate ,UICollectionViewDataSource, 
         }
         return cell
     }
-    //それぞれの数字の情報を取得しナンバー表示させる
+    //それぞれの数字の情報を取得しナンバー表示
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let number = numbers[indexPath.section][indexPath.row]
         
-        switch  calculateStates {
+        switch calculateStates {
         case .none:
             handleFirstNumberSelected(number: number)
         case .plus, .minus, .multiplication, .division:
             handleSecondNumberSelected(number: number)
-     
         }
     }
-    
+    //最初の数字の処理
     private func handleFirstNumberSelected(number: String){
         switch number {
           case "0"..."9":
               //ナンバーに追加して表示してくれる
               firstNumber += number
               numberLabel.text = firstNumber
-              
+              //
               if firstNumber.hasPrefix("0"){
                   firstNumber = ""
               }
           //nilなら.を入れられる
           case ".":
               if !comfilmIncludeDecimalPoint(numberString: firstNumber){
-                  firstNumber += number
-                  numberLabel.text = firstNumber
+                firstNumber += number
+                numberLabel.text = firstNumber
               }
           case "+":
               calculateStates = .plus
@@ -157,7 +160,7 @@ extension ViewController: UICollectionViewDelegate ,UICollectionViewDataSource, 
               break
           }
     }
-    
+    //最初の数字の処理
     func  handleSecondNumberSelected(number: String){
         switch  number {
              case "0"..."9":
@@ -181,7 +184,7 @@ extension ViewController: UICollectionViewDelegate ,UICollectionViewDataSource, 
             break
         }
     }
-    
+    //二つ目の数字の処理
     private func calculateResultNumber(){
         
         let firstNum = Double(firstNumber) ?? 0
@@ -213,6 +216,7 @@ extension ViewController: UICollectionViewDelegate ,UICollectionViewDataSource, 
         calculateStates = .none
     }
     
+    //小数点の確認
     private func comfilmIncludeDecimalPoint(numberString: String) -> Bool {
         if numberString.range(of: ".") != nil || numberString.count == 0 {
             return true
@@ -221,4 +225,3 @@ extension ViewController: UICollectionViewDelegate ,UICollectionViewDataSource, 
         }
     }
 }
-
